@@ -1,9 +1,7 @@
 #!/bin/bash
 
-echo -e "\n============================================================"
-echo -e "Make sure you provide adequate checksum type for target file!"
-echo -e "=============================================================\n"
-
+#Usage  : ./compare-hash.sh {{ file }} {{ md5sum || sha1sum || sha256sum }}
+#Example: ./compare-hash.sh README.md 3a64eeb45a83030f40de6cf7bf55d71e60f9e577
 
 if [ ${#2} -eq 32 ];
  then CHECK=md5sum
