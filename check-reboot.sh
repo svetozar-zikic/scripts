@@ -1,9 +1,22 @@
 #!/bin/bash
 
-a=$(pacman -Q linux | awk '{ print $2}' | grep -P -o '(\d{1,}\.){2}\d{1,}')
-b=$(uname -r | grep -P -o '(\d{1,}\.){2}\d{1,}') 
+VERSION=$(cat /etc/*-release | head -n1)
+echo "version=${VERSION^h}"
 
-if [ $a == $b ];
+case $VERSION in
+  arch*) INSTALLED_KERNEL=$(pacman -Q linux | awk '{ print $2}' | grep -Po '(\d{1,}\.){2}\d{1,}')
+  echo "INSTALLED_kernel= $INSTALLED_KERNEL"
+  ;;
+  CentOS*) INSTALLED_KERNEL=$(yum list installed | grep '^kernel\.' | sort -k2 | tail -n1 | awk '{ print $2}'  | grep -Po '(\d{1,}\.?){3}-(\d{1,}\.){3}')
+  echo "INSTALLED_kernel= $INSTALLED_KERNEL"
+  ;;
+  *) echo "Sorry, not arch or rhel/centos, not supporeted."
+esac
+
+RUNNING_KERNEL=$(uname -r | grep -Po '(\d{1,}\.?){3}-(\d{1,}\.){3}') 
+echo -e "running_kernel=$RUNNING_KERNEL"
+
+if [ "$INSTALLED_KERNEL" = "$RUNNING_KERNEL" ];
   then
     echo "all good! no reboot needed"; 
   else
