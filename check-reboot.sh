@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=$(uname -r | grep -ie 'el[6-9]_\|arch')
+VERSION=$(uname -r | grep -ie 'el[6-9]_\|arch' | sed 's/.*/\L&/')
 REGEX='(\d{1,}\.?){3}(-(\d{1,}\.?){3})?'
 
 case $VERSION in
