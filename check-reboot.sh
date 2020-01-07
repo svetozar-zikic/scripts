@@ -4,7 +4,7 @@ VERSION=$(uname -r | grep -ie 'el[6-9]\|arch' | sed 's/.*/\L&/')
 REGEX='(\d{1,}\.?){3}((\d{1,}\.?){3})?'
 
 case $VERSION in
-  *arch*) INSTALLED_KERNEL=$(pacman -Q linux | awk '{ print $2}' | grep -Po $REGEX)
+  *arch*) INSTALLED_KERNEL=$(pacman -Q linux | awk '{ print $2}' | sed 's/-/./' | grep -Po $REGEX)
   echo "INSTALLED_kernel = $INSTALLED_KERNEL"
   ;;
   *el[6-9]*) 
